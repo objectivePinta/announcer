@@ -1,13 +1,16 @@
 package net.uranus.astra.auth.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
   private Long id;
   private String username;

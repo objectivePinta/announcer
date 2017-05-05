@@ -7,6 +7,8 @@ import apiFetch from './apiFetch';
 export function doLogin(username, password) {
     return function (dispatch) {
         const requestUri = new URI(constants.ROOT).segment('login');
+        console.log(requestUri.toString());
+        console.log(constants.ROOT);
         const data = new URI().query({username, password}).query();
         return apiFetch(dispatch, requestUri, {
             credentials: 'include',
@@ -33,7 +35,7 @@ export function doLogin(username, password) {
 export function registerUser(username, password) {
     console.log(username,password);
     return function (dispatch) {
-        const requestUri = new URI(constants.ROOT).segment('registration');
+        const requestUri = new URI(constants.API_ROOT).segment('registration');
         const data = {username, password};
         return apiFetch(dispatch, requestUri, {
             method: 'POST',

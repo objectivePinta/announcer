@@ -29,6 +29,7 @@ public class AccountsController {
 
   @PostMapping(path = "/registration", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public void registerUser(@RequestBody UserData userData) {
+    System.out.println("registering this crap");
     accountsRepository.save(Account.builder().username(userData.getUsername()).password(userData.getPassword()).build());
   }
 }

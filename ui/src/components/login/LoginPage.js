@@ -19,11 +19,11 @@ class LoginPage extends Component {
   }
 
   componentWillMount() {
-    this.props.loginActions.doLogin('user', '58a42612-5f61-4b89-8067-867b0cbdc51d');
 
   }
 
   onSubmit() {
+    console.log("click");
     this.props.loginActions.doLogin(this.state.username,this.state.password).then(response =>
     toastr.info(response.status));
   }

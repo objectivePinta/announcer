@@ -21,6 +21,8 @@ const port = 3000;
 const app = express();
 const compiler = webpack(config);
 const loginUri = process.env.LOGIN_URI || '/login';
+const dummyUri = process.env.LOGIN_URI || '/dummy';
+
 const registrationUri = process.env.LOGIN_URI || '/register';
 const timeout = process.env.TIMEOUT || 10000;
 
@@ -28,6 +30,7 @@ const logoutUri = process.env.LOGOUT_URI || '/logout';
 const baseUri = process.env.BASE_URI || '/';
 const apiUri = process.env.API_URI || '/api';
 const apiUrl = process.env.API_URL || 'http://localhost:8080';
+
 const cookieSecret = process.env.COOKIE_SECRET || 'secret';
 const cookieMaxAge = process.env.COOKIE_MAX_AGE || 15 * 60000;
 
@@ -43,6 +46,7 @@ const asBase64 = function (value) {
 };
 
 passport.use(new LocalStrategy(function (username, password, done) {
+    console.log("alo");
     const authUri = new URI(apiUrl + "/login").username(username).password(password);
     const request = (authUri.protocol() === 'http' ? http : https).request({
         method: 'GET',
@@ -132,8 +136,10 @@ const proxyMiddleware = function (settings) {
             reqAsBuffer = true;
             reqBodyEncoding = null;
         }
-        console.log(settings.url);
-        if (!settings.authenticate || req.isAuthenticated()) {
+        console.log("pisu:"+settings.url);
+      console.log("caca:"+req.url);
+
+      if (!settings.authenticate || req.isAuthenticated() || req.url.includes('registration')) {
             process.stdout.write(`proxyMiddleware1: ${req.url}\n`);
 
             return proxy(settings.url, {
@@ -143,7 +149,7 @@ const proxyMiddleware = function (settings) {
                 limit: '10mb',
                 decorateRequest: function (proxyReq, originalReq) {
                     process.stdout.write(`fowarded: ${originalReq.url}\n`);
-                    if (settings.authenticate) {
+                    if (!req.url.includes('registration') && settings.authenticate) {
                         const user = originalReq.user;
                         if (!proxyReq.headers)
                             proxyReq.headers = {};
@@ -203,6 +209,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.post(loginUri, passport.authenticate('local'), (req, res) => {
     res.status(200).end();
 });
+
 app.use(apiUri, proxyMiddleware({url: apiUrl, authenticate: true, timeout}));
 
 
