@@ -26,6 +26,7 @@ class IntelligentForm extends Component {
     let copyOfObjectOfForm = Object.assign({},this.state.objectOfForm);
     copyOfObjectOfForm[event.target.id] = event.target.value;
     this.setState({objectOfForm:copyOfObjectOfForm});
+    this.props.onFieldsChange(event.target.id, event.target.value);
   }
 
   buttonClick(event) {

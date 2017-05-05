@@ -13,11 +13,18 @@ export default function apiFetch(dispatch, resource, request) {
     //  dispatch(ajaxActions.ajaxFinished(startTime));
       if (response.status === 204) {
      //   dispatch(logoutActions.resetState());
-        dispatch(push(new URI(constants.ROOT).segment('login').toString()));
+          console.log('fetch2ing');
+
+          dispatch(push(new URI(constants.ROOT).segment('login').toString()));
         if (resource.equals(new URI(constants.ROOT).segment('login'))) {
-          throw new Error('Login failed, please try again.');
+            console.log('fetch3ing');
+
+            throw new Error('Login failed, please try again.');
+
         }
         throw new Error('Logged out, please log in again.');
+          console.log('fetch4ing');
+
       }
       return response;
     });

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as loginActions from '../../actions/loginActions';
-import {LoginFormObject} from '../../constants/LoginFormObject';
+import {RegistrationFormObject} from '../../constants/RegistrationFormObject';
 import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
 
@@ -18,13 +18,9 @@ class LoginPage extends Component {
     this.onFieldsChange = this.onFieldsChange.bind(this);
   }
 
-  componentWillMount() {
-    this.props.loginActions.doLogin('user', '58a42612-5f61-4b89-8067-867b0cbdc51d');
-
-  }
 
   onSubmit() {
-    this.props.loginActions.doLogin(this.state.username,this.state.password).then(response =>
+    this.props.loginActions.registerUser(this.state.username,this.state.password).then(response =>
     toastr.info(response.status));
   }
 
@@ -48,15 +44,11 @@ class LoginPage extends Component {
     return (
       <div>
         <IntelligentForm
-          title={LoginFormObject.title}
+          title={RegistrationFormObject.title}
           onSubmit={() => {this.onSubmit()}}
-          object={LoginFormObject.object}
+          object={RegistrationFormObject.object}
           onFieldsChange={this.onFieldsChange}
         />
-        <div class="container">
-          Login with:
-          <button onClick={this.handle}>Facebook</button>
-        </div>
       </div>
     );
   }
