@@ -1,0 +1,14 @@
+.loginPage {
+  height: 100%;
+  width: 100%;
+  background-image: url("../../../images/concert.jpeg");
+  background-size: cover;
+  padding-top:25%;
+  padding-bottom: 20%;
+}
+
+.loginPage h1 {
+  text-align: center;
+  color: #3e2c57;
+  text-shadow:  1px 1px 2px blue;
+}

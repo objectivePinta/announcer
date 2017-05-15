@@ -6,7 +6,7 @@ import {RegistrationFormObject} from '../../constants/RegistrationFormObject';
 import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
 
-class LoginPage extends Component {
+class RegistrationPage extends Component {
 
   constructor(props) {
     super(props);
@@ -25,18 +25,14 @@ class LoginPage extends Component {
   }
 
   handle(event) {
-    console.log(event.target.value);
   }
 
   onFieldsChange(id, value) {
-    console.log(id);
-    console.log(value);
     if (id === 'name') {
      this.setState({username: value});
     } else {
      this.setState({password: value});
     }
-    console.log('state',this.state);
   }
 
 
@@ -55,6 +51,10 @@ class LoginPage extends Component {
 
 }
 
+RegistrationPage.propTypes = {
+  loginActions: PropTypes.object,
+};
+
 function mapStateToProps(state, ownProps) {
   return {};
 }
@@ -65,5 +65,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPage);
 

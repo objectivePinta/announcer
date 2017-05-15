@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Glyphicon} from 'react-bootstrap';
-
+import * as styles from '../../styles/common/form-components/textInput.dino.css'
 class TextInput extends Component {
 
   constructor(props) {
@@ -56,9 +56,8 @@ class TextInput extends Component {
       '' ;
 
     return (
-      <li >
-        <div style={{whiteSpace:'nowrap'}}>
-
+      <div className={this.props.inheritedClass}>
+        <label htmlFor={this.props.id}>{`${this.props.id.toUpperCase()}`}</label>
         <input width={this.props.id.length}
                placeholder={this.props.id}
                className="field-long"
@@ -67,7 +66,6 @@ class TextInput extends Component {
                value={this.props.inputValue}
                onChange={this.props.textChanged}
         /> {validIcon}
-          </div>
         {!this.isValid() && <p className="alert-success">
           {!this.lessThanMinSize() &&
           'Too few characters. Try to think at something.'}
@@ -78,7 +76,7 @@ class TextInput extends Component {
           'No numbers allowed here, math fanatic!'}
         </p>
         }
-      </li>
+      </div>
     );
   }
 }

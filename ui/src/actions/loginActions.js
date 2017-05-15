@@ -1,5 +1,4 @@
 import URI from 'urijs';
-import toastr from 'toastr';
 import * as constants from '../constants/constants';
 import apiFetch from './apiFetch';
 
@@ -7,8 +6,6 @@ import apiFetch from './apiFetch';
 export function doLogin(username, password) {
     return function (dispatch) {
         const requestUri = new URI(constants.ROOT).segment('login');
-        console.log(requestUri.toString());
-        console.log(constants.ROOT);
         const data = new URI().query({username, password}).query();
         return apiFetch(dispatch, requestUri, {
             credentials: 'include',
@@ -19,21 +16,16 @@ export function doLogin(username, password) {
             body: data,
         }).then(response => {
             if (response.status === 200) {
-                if (username !== 'dm') {
-                    toastr.info('Login successful.');
-                }
-                // dispatch(setLoggedInUser(username));
                 return response;
-            } else if (response.status === 500) {
-                throw Error('Invalid username/password');
+            } else if (response.status === 401) {
+              return response;
+
             }
-            throw Error('Login failed, please try again.');
         });
     };
 }
 
 export function registerUser(username, password) {
-    console.log(username,password);
     return function (dispatch) {
         const requestUri = new URI(constants.API_ROOT).segment('registration');
         const data = {username, password};
@@ -45,7 +37,6 @@ export function registerUser(username, password) {
             },
             body: JSON.stringify(data),
         }).then(response => {
-            console.log(response);
             if (response.status === 200) {
                 // dispatch(setLoggedInUser(username));
                 return response;

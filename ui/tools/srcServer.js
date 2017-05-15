@@ -136,9 +136,6 @@ const proxyMiddleware = function (settings) {
             reqAsBuffer = true;
             reqBodyEncoding = null;
         }
-        console.log("pisu:"+settings.url);
-      console.log("caca:"+req.url);
-
       if (!settings.authenticate || req.isAuthenticated() || req.url.includes('registration')) {
             process.stdout.write(`proxyMiddleware1: ${req.url}\n`);
 
@@ -208,6 +205,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.post(loginUri, passport.authenticate('local'), (req, res) => {
     res.status(200).end();
+});
+
+app.post(logoutUri, (req, res) => {
+  req.logout();
+  res.status(200).end();
 });
 
 app.use(apiUri, proxyMiddleware({url: apiUrl, authenticate: true, timeout}));

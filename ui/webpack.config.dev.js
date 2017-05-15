@@ -31,17 +31,20 @@ export default {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel'] },
-      { test: /(\.css)$/, loaders: ['style', 'css?sourceMap'] },
-      { test: /(\.scss)$/, loaders: ['style', 'css?sourceMap', 'postcss', 'sass?sourceMap'] },
-      { test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file' },
-      { test: /\.(woff|woff2)$/, loader: 'file-loader?prefix=font/&limit=5000' },
-      { test: /\.ttf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.otf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=font/opentype' },
-      { test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=image/svg+xml' },
-      { test: /\.(jpe?g|png|gif)$/i, loaders: ['file'] },
-      { test: /\.ico$/, loader: 'file-loader?name=[name].[ext]' },
-      { test: /\.json$/, loader: 'json-loader' },
+      {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['react-hot','babel']},
+      {test: /(\.css)$/,include: /node_modules/, loaders: ['style', 'css?sourceMap']},
+      {
+        test: /\.dino.css$/,
+        loader: 'style-loader!css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]'
+      },
+      {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file'},
+      {test: /\.(woff|woff2)$/, loader: 'file-loader?prefix=font/&limit=5000'},
+      {test: /\.ttf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=application/octet-stream'},
+      {test: /\.otf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=font/opentype'},
+      {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=image/svg+xml'},
+      {test: /\.(jpe?g|png|gif)$/i, loaders: ['file']},
+      {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
+      {test: /\.json$/, loader: 'json-loader'},
     ]
   }
 };

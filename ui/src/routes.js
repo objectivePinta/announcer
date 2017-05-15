@@ -1,5 +1,5 @@
 import React from 'react';
-// import URI from 'urijs';
+import URI from 'urijs';
 import {Route, IndexRoute} from 'react-router';
 // import underscore from 'underscore';
 // import fetch from 'isomorphic-fetch';

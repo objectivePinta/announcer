@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import toastr from 'toastr';
 import TextInput from './form-components/TextInput';
 import PrintObject from '../utils/PrintObject';
+import * as styles from '../styles/common/intelligentForm.dino.css';
 
 class IntelligentForm extends Component {
 
@@ -36,8 +37,6 @@ class IntelligentForm extends Component {
     this.state.fieldsValidity[t]).filter(t => t === true);
     if (trues.length === keys.length ) {
       this.props.onSubmit(Object.assign({}, this.state.objectOfForm));
-      toastr.info('Data was submitted succesfully :)');
-
     } else {
       toastr.warning('You still have to fill some stuff around here :)');
     }
@@ -53,6 +52,7 @@ class IntelligentForm extends Component {
       prop =>
       {
           return (<TextInput
+            inheritedClass={styles.item}
             key={prop}
             type={this.props.object[prop].type}
             id={prop}
@@ -66,12 +66,14 @@ class IntelligentForm extends Component {
     );
 
     return (
-      <ul className="form-style-1" style={{border:'0.5px dashed grey', padding:'13px'}}>
-        <h3>{this.props.title} </h3>
+      <div className={styles.intelligentForm}>
           {inputs}
-         <button onClick={this.buttonClick} className="btn btn-info btn-submit"> Boom </button>
+          <div id="buttons">
+         <button onClick={this.buttonClick} className={`btn btn-info btn-submit ${styles.item}`}> Submit </button>
+        <button onClick={this.buttonClick} className={`btn btn-info btn-submit ${styles.item}`}> Cancel </button>
+          </div>
         {this.props.debug && <PrintObject givenObject={this.state.objectOfForm}/>}
-      </ul>
+      </div>
     );
   }
 
@@ -81,7 +83,8 @@ IntelligentForm.propTypes = {
   object: PropTypes.object,
   onSubmit: PropTypes.func,
   title: PropTypes.string,
-  debug: PropTypes.bool
+  debug: PropTypes.bool,
+  onFieldsChange: PropTypes.func,
 };
 
 export default IntelligentForm;
