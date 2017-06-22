@@ -5,6 +5,7 @@ import * as loginActions from '../../actions/loginActions';
 import {RegistrationFormObject} from '../../constants/RegistrationFormObject';
 import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
+import URI from 'urijs';
 
 class RegistrationPage extends Component {
 
@@ -20,8 +21,13 @@ class RegistrationPage extends Component {
 
 
   onSubmit() {
-    this.props.loginActions.registerUser(this.state.username,this.state.password).then(response =>
-    toastr.info(response.status));
+    this.props.loginActions.registerUser(this.state.username,this.state.password)
+    .then(response => {
+    toastr.info(response.status);
+    if (response.status === 200) {
+        this.context.router.push({ pathname: new URI('/login').toString()});
+    }});
+  
   }
 
   handle(event) {
@@ -50,6 +56,11 @@ class RegistrationPage extends Component {
   }
 
 }
+
+RegistrationPage.contextTypes = {
+  router: PropTypes.object,
+};
+
 
 RegistrationPage.propTypes = {
   loginActions: PropTypes.object,

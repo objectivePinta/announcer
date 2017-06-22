@@ -1,4 +1,6 @@
-import React, {Component, Proptypes} from 'react';
+import React, {Component, PropTypes} from 'react';
+import URI from 'urijs';
+import {Link} from 'react-router';
 
 class Header extends Component {
 
@@ -6,19 +8,21 @@ class Header extends Component {
     super(context, props);
   }
 
+
   render() {
     return(
       <div>
         <ul>
-          <li>acacia</li>
-          <li>acadia</li>
-          <li>adana</li>
-          <li>aluna</li>
-          <li>acadia</li>
+          <Link to={`/register`} activeClassName="active">Register</Link>
         </ul>
       </div>
     );
   }
 }
+
+Header.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
+
 
 export default Header;

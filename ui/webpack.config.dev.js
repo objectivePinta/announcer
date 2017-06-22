@@ -31,7 +31,7 @@ export default {
   ],
   module: {
     loaders: [
-      {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['react-hot','babel']},
+      {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel']},
       {test: /(\.css)$/,include: /node_modules/, loaders: ['style', 'css?sourceMap']},
       {
         test: /\.dino.css$/,

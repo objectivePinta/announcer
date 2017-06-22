@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import moment from 'moment';
+import Header from '../components/common/Header';
 
 class App extends React.Component {
 
@@ -28,6 +29,7 @@ class App extends React.Component {
     App.globals();
     return (
       <div className="container-fluid">
+                <Header/>
         {this.props.loading && <img className="ajax-loader" src={require('../images/ajax-loader.gif')} />}
         {this.props.children}
       </div>
