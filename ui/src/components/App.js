@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import moment from 'moment';
 import Header from '../components/common/Header';
+import * as style from './app.dino.css';
 
 class App extends React.Component {
 
@@ -28,7 +29,7 @@ class App extends React.Component {
   render() {
     App.globals();
     return (
-      <div className="container-fluid">
+      <div className={style.app}>
                 <Header/>
         {this.props.loading && <img className="ajax-loader" src={require('../images/ajax-loader.gif')} />}
         {this.props.children}

@@ -3,6 +3,7 @@ import toastr from 'toastr';
 import * as constants from '../constants/constants';
 import redirectToLogin from './redirectToLogin';
 import apiFetch from './apiFetch';
+import {setLoggedInUser} from './loginActions';
 import * as types from './actionTypes';
 
 export function doLogout() {
@@ -15,7 +16,8 @@ export function doLogout() {
       if (response.status === 200) {
         const info = 'Logout successful';
         toastr.info(info);
-      //  redirectToLogin();
+        dispatch(setLoggedInUser(''));
+        redirectToLogin();
         return response;
       }
       throw Error('Logout failed.');

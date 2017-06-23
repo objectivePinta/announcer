@@ -5,7 +5,7 @@ import * as loginActions from '../../actions/loginActions';
 import * as logoutActions from '../../actions/logoutActions';
 import URI from 'urijs';
 import {LoginFormObject} from '../../constants/LoginFormObject';
-import bg1 from '../../images/concert.jpeg';
+import bg1 from '../../images/sea.jpeg';
 import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
 import * as styles from '../styles/login/loginPage.dino.css';
@@ -17,11 +17,21 @@ class LoginPage extends Component {
   constructor(context,props) {
     super(context, props);
     this.state = {
-      username: '',
-      password: ''
+      username: this.props.location.state ? this.props.location.state.username : '',
+      password: this.props.location.state ? this.props.location.state.password : '',
     };
-    this.handle = this.handle.bind(this);
     this.onFieldsChange = this.onFieldsChange.bind(this);
+    console.log(this.state);
+  }
+
+  componentWillMount() {
+    this.props.loginActions.getUser();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user !== this.props.user && nextProps.user !== '' ) {
+      this.context.router.push({ pathname: new URI('/dummy').toString()});
+    }
   }
 
   onSubmit() {
@@ -35,10 +45,6 @@ class LoginPage extends Component {
     });
   }
 
-  handle(event) {
-    this.props.logoutActions.doLogout()
-  }
-
   onFieldsChange(id, value) {
     if (id === 'name') {
       this.setState({username: value});
@@ -49,6 +55,7 @@ class LoginPage extends Component {
 
 
   render() {
+    const values={name: this.state.username, password: this.state.password};
     return (
       <div className={styles.loginPage}>
         <h1>Log in</h1>
@@ -57,8 +64,8 @@ class LoginPage extends Component {
           onSubmit={() => {this.onSubmit()}}
           object={LoginFormObject.object}
           onFieldsChange={this.onFieldsChange}
+          initialValues={values}
         />
-          <button onClick={this.handle}>Log out</button>
       </div>
     );
   }
@@ -75,7 +82,7 @@ LoginPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {};
+  return {user: state.loggedUser};
 }
 
 function mapDispatchToProps(dispatch) {

@@ -10,8 +10,9 @@ class IntelligentForm extends Component {
     super(props);
     let objectOfForm = {};
     let fieldsValidity = {};
+    console.log(this.props.initialValues);
     Object.keys(this.props.object).map( key => {
-      objectOfForm[key] = '';
+      objectOfForm[key] = this.props.initialValues ? this.props.initialValues[key] : '';
       fieldsValidity[key] = false;
      return {objectOfForm,fieldsValidity};
     });

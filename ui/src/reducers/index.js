@@ -1,11 +1,13 @@
 import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
 // import * as actionTypes from '../actions/actionTypes';
+import loggedUser from './loggedUserReducer';
 
 
 
 
 const appReducer = combineReducers({
+  loggedUser,
   routing: routerReducer,
 });
 

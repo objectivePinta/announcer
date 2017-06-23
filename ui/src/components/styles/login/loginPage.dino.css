@@ -1,14 +1,19 @@
 .loginPage {
-  height: 100%;
-  width: 100%;
-  background-image: url("../../../images/concert.jpeg");
+  background-image: url("../../../images/patt.png");
   background-size: cover;
-  padding-top:25%;
-  padding-bottom: 20%;
+      height: 97vh;
+
 }
 
 .loginPage h1 {
   text-align: center;
-  color: #3e2c57;
-  text-shadow:  1px 1px 2px blue;
+  color: black;
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: white;
+  width: 50%;
+  opacity: 0.9;
 }

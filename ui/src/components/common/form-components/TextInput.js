@@ -53,7 +53,7 @@ class TextInput extends Component {
       (this.isValid() ? <Glyphicon glyph="ok" style={{color:'green'}}/>
         : <Glyphicon glyph="remove" style={{color:'red'}} />)
       :
-      '' ;
+      <Glyphicon glyph="heart" style={{color:'red'}} /> ;
 
     return (
       <div className={this.props.inheritedClass}>

@@ -3,6 +3,7 @@ package net.uranus.astra.auth.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -11,21 +12,12 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Account {
-  private Long id;
   private String username;
   private String password;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public String getUsername() {
     return username;
   }

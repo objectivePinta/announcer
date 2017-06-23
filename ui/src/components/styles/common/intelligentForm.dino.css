@@ -1,11 +1,14 @@
 .intelligentForm {
-  margin: auto auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: space-around;
   align-content: stretch;
   align-items: center;
+  background-color: white;
+  opacity: 0.9;
+  width: 50%;
 }
 
 .item {

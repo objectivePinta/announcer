@@ -25,7 +25,8 @@ class RegistrationPage extends Component {
     .then(response => {
     toastr.info(response.status);
     if (response.status === 200) {
-        this.context.router.push({ pathname: new URI('/login').toString()});
+        this.context.router.push({ pathname: new URI('/login').toString(),
+      state: { username: this.state.username, password: this.state.password }});
     }});
   
   }

@@ -21,6 +21,8 @@ const port = 3000;
 const app = express();
 const compiler = webpack(config);
 const loginUri = process.env.LOGIN_URI || '/login';
+const getUserUri = process.env.USER_URI || '/user';
+
 const dummyUri = process.env.LOGIN_URI || '/dummy';
 
 const registrationUri = process.env.LOGIN_URI || '/register';
@@ -212,10 +214,17 @@ app.post(logoutUri, (req, res) => {
   res.status(200).end();
 });
 
+app.get('/user', (req,res) => {
+ if (req.isAuthenticated()) {
+     res.send(`{"user":"${req.user.username}"}`);
+ } else {
+     res.send('{"user":""}');
+ }
+});
+
 app.use(apiUri, proxyMiddleware({url: apiUrl, authenticate: true, timeout}));
 
 
-//copy pasta end
 function serve(req, res) {
     process.stdout.write(`serve: ${req.url}\n`);
     let locale = 'pl'; //acceptLanguageParser.pick(supportLanguages, req.headers['accept-language']) || defaultLocale;

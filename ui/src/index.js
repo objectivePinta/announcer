@@ -13,7 +13,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
 import * as constants from './constants/constants';
 import routes from './routes';
-import Header from './components/common/Header';
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: URI.parse(constants.ROOT).path
