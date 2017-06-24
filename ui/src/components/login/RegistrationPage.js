@@ -5,6 +5,7 @@ import * as loginActions from '../../actions/loginActions';
 import {RegistrationFormObject} from '../../constants/RegistrationFormObject';
 import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
+import {Glyphicon} from 'react-bootstrap';
 import URI from 'urijs';
 
 class RegistrationPage extends Component {
@@ -51,6 +52,9 @@ class RegistrationPage extends Component {
           onSubmit={() => {this.onSubmit()}}
           object={RegistrationFormObject.object}
           onFieldsChange={this.onFieldsChange}
+             submitCaption={<span> <Glyphicon glyph="record" style={{color:'blue'}} /> Register</span>}
+          cancelCaption={<span> <Glyphicon glyph="log-in" style={{color:'blue'}} /> Register</span>}
+          onCancel={() => this.context.router.push({ pathname: new URI('/login').toString()})}
         />
       </div>
     );

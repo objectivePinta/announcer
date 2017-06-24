@@ -9,6 +9,8 @@ import bg1 from '../../images/sea.jpeg';
 import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
 import * as styles from '../styles/login/loginPage.dino.css';
+import {Glyphicon} from 'react-bootstrap';
+
 
 const background = bg1;
 
@@ -37,16 +39,16 @@ class LoginPage extends Component {
   onSubmit() {
     this.props.loginActions.doLogin(this.state.username, this.state.password).then(response => {
       if (response.status === 200) {
-        toastr.info("Login was successfull ;)");
+        toastr.info('You\'re signed in!');
         this.context.router.push({ pathname: new URI('/dummy').toString()});
       } else {
-        toastr.info("Login failed ;)");
+        toastr.warning('Credentials are wrong.');
       }
     });
   }
 
   onFieldsChange(id, value) {
-    if (id === 'name') {
+    if (id === 'username') {
       this.setState({username: value});
     } else {
       this.setState({password: value});
@@ -55,7 +57,7 @@ class LoginPage extends Component {
 
 
   render() {
-    const values={name: this.state.username, password: this.state.password};
+    const values={username: this.state.username, password: this.state.password};
     return (
       <div className={styles.loginPage}>
         <h1>Log in</h1>
@@ -65,6 +67,9 @@ class LoginPage extends Component {
           object={LoginFormObject.object}
           onFieldsChange={this.onFieldsChange}
           initialValues={values}
+          submitCaption={<span> <Glyphicon glyph="log-in" style={{color:'blue'}} /> Sign in </span>}
+          cancelCaption={<span> <Glyphicon glyph="record" style={{color:'blue'}} /> Register</span>}
+          onCancel={() => this.context.router.push({ pathname: new URI('/register').toString()})}
         />
       </div>
     );

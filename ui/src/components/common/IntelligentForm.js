@@ -22,6 +22,7 @@ class IntelligentForm extends Component {
     this.handleTextChange = this.handleTextChange.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
     this.areAllValid = this.areAllValid.bind(this);
+    this.cancelClick = this.cancelClick.bind(this);
   }
 
   handleTextChange(event) {
@@ -41,6 +42,11 @@ class IntelligentForm extends Component {
     } else {
       toastr.warning('You still have to fill some stuff around here :)');
     }
+  }
+
+  cancelClick(event) {
+    event.preventDefault();
+    this.props.onCancel();
   }
 
   areAllValid(id , valid) {
@@ -70,8 +76,8 @@ class IntelligentForm extends Component {
       <div className={styles.intelligentForm}>
           {inputs}
           <div id="buttons">
-         <button onClick={this.buttonClick} className={`btn btn-info btn-submit ${styles.item}`}> Submit </button>
-        <button onClick={this.buttonClick} className={`btn btn-info btn-submit ${styles.item}`}> Cancel </button>
+         <button onClick={this.buttonClick} className={`btn ${styles.item}`}> {this.props.submitCaption} </button>
+        <button onClick={this.cancelClick} className={`btn ${styles.item}`}> {this.props.cancelCaption} </button>
           </div>
         {this.props.debug && <PrintObject givenObject={this.state.objectOfForm}/>}
       </div>
