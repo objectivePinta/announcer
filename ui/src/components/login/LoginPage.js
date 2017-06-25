@@ -10,6 +10,7 @@ import IntelligentForm from '../common/IntelligentForm';
 import toastr from 'toastr';
 import * as styles from '../styles/login/loginPage.dino.css';
 import {Glyphicon} from 'react-bootstrap';
+import * as constants from '../../constants/constants';
 
 
 const background = bg1;
@@ -23,6 +24,7 @@ class LoginPage extends Component {
       password: this.props.location.state ? this.props.location.state.password : '',
     };
     this.onFieldsChange = this.onFieldsChange.bind(this);
+    this.goToFacebook =  this.goToFacebook.bind(this);
     console.log(this.state);
   }
 
@@ -55,11 +57,15 @@ class LoginPage extends Component {
     }
   }
 
-
+  goToFacebook() {
+    window.open("http://www.localhost:8080/login/facebook");
+  }
   render() {
     const values={username: this.state.username, password: this.state.password};
     return (
       <div className={styles.loginPage}>
+        <button onClick={this.goToFacebook}>Log in with facebook</button>
+        <a href={new URI(constants.API_ROOT).segment('login').segment('facebook').toString()}>with fb </a>
         <h1>Log in</h1>
         <IntelligentForm
           title={LoginFormObject.title}
