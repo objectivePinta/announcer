@@ -53,7 +53,7 @@ class RegistrationPage extends Component {
           object={RegistrationFormObject.object}
           onFieldsChange={this.onFieldsChange}
              submitCaption={<span> <Glyphicon glyph="record" style={{color:'blue'}} /> Register</span>}
-          cancelCaption={<span> <Glyphicon glyph="log-in" style={{color:'blue'}} /> Register</span>}
+          cancelCaption={<span> <Glyphicon glyph="log-in" style={{color:'blue'}} /> Log in</span>}
           onCancel={() => this.context.router.push({ pathname: new URI('/login').toString()})}
         />
       </div>
