@@ -11,11 +11,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity httpSecurity) {
-      try {
-          httpSecurity.authorizeRequests().antMatchers("/resources/**", "/registration","/registration/**", "/login").permitAll()
-          .anyRequest().fullyAuthenticated().and().httpBasic().and().csrf().disable();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
+    try {
+      httpSecurity.cors().and().authorizeRequests()
+          .antMatchers("/resources/**", "/registration", "/registration/**", "/login").permitAll().anyRequest()
+          .fullyAuthenticated().and().httpBasic().realmName("WOWrealm").and().csrf().disable();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -2,21 +2,21 @@ package net.uranus.astra.auth.model.security;
 
 import net.uranus.astra.auth.model.Account;
 import net.uranus.astra.auth.model.repository.AccountsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Configuration
 public class AuthenticationConfigurerAdapter extends GlobalAuthenticationConfigurerAdapter {
 
   private final AccountsRepository accountsRepository;
+  private final static Logger log = LoggerFactory.getLogger(AuthenticationConfigurerAdapter.class);
 
   public AuthenticationConfigurerAdapter(AccountsRepository accountsRepository) {
     this.accountsRepository = accountsRepository;
@@ -34,17 +34,16 @@ public class AuthenticationConfigurerAdapter extends GlobalAuthenticationConfigu
 
   @Bean
   UserDetailsService userDetailsService() {
-    return new UserDetailsService() {
-      @Override
-      public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountsRepository.findByUsername(username);
-        if (account != null) {
-          return new User(account.getUsername(), account.getPassword(), true, true, true, true,
-              AuthorityUtils.createAuthorityList("USER"));
-        }
-        else {
-          throw new UsernameNotFoundException(username + " is not registered");
-        }
+    return username -> {
+      Account account = accountsRepository.findByUsername(username);
+      if (account != null) {
+        return User.withDefaultPasswordEncoder().username(account.getUsername()).password(account.getPassword())
+            .credentialsExpired(false).accountLocked(false).authorities(AuthorityUtils.createAuthorityList("USER"))
+            .disabled(false).accountExpired(false).build();
+      }
+      else {
+        log.error(username + " is not registered");
+        throw new RuntimeException(username + " is not registered");
       }
     };
   }
