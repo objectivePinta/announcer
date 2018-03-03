@@ -17,7 +17,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(HttpSecurity httpSecurity) {
     try {
       httpSecurity.cors().and().authorizeRequests()
-          .antMatchers("/facebook", "/facebook/**/  ", "/resources/**", "/registration", "/registration/**", "/login")
+          .antMatchers("/facebook", "/privacy", "/facebook/**/  ", "/resources/**", "/registration", "/registration/**",
+              "/login")
           .permitAll().anyRequest().fullyAuthenticated().and().httpBasic().realmName("WOWrealm").and()
           .addFilterBefore(new AuthenticationFilter(accountsRepository), BasicAuthenticationFilter.class).csrf()
           .disable();

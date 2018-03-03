@@ -84,4 +84,9 @@ public class AuthController {
       return ResponseEntity.badRequest().body(null);
     }
   }
+
+  @GetMapping(path="/privacy")
+  String privacyPollicy() {
+    return "We just create an account for this app, using the email provided by facebook";
+  }
 }
