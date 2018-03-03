@@ -1,4 +1,4 @@
-package net.uranus.astra.ws.controller;
+package net.uranus.astra.rest.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

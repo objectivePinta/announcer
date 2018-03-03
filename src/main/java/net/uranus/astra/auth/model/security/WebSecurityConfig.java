@@ -13,8 +13,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(HttpSecurity httpSecurity) {
     try {
       httpSecurity.cors().and().authorizeRequests()
-          .antMatchers("/resources/**", "/registration", "/registration/**", "/login").permitAll().anyRequest()
-          .fullyAuthenticated().and().httpBasic().realmName("WOWrealm").and().csrf().disable();
+          .antMatchers("/facebook", "/facebook/**/  ", "/resources/**", "/registration", "/registration/**", "/login")
+          .permitAll().anyRequest().fullyAuthenticated().and().httpBasic().realmName("WOWrealm").and().csrf().disable();
     }
     catch (Exception e) {
       e.printStackTrace();
