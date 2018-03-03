@@ -2,6 +2,7 @@ package net.uranus.astra.rest;
 
 import net.uranus.astra.auth.model.Account;
 import net.uranus.astra.auth.model.repository.AccountsRepository;
+import net.uranus.astra.auth.model.security.AuthProvider;
 import net.uranus.astra.rest.requests.AuthToken;
 import net.uranus.astra.rest.requests.User;
 import net.uranus.astra.rest.requests.UserData;
@@ -9,26 +10,42 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static net.uranus.astra.rest.Constants.FACEBOOK_FIELDS;
 
 @RestController
 public class AuthController {
 
   private final AccountsRepository accountsRepository;
+  private final AuthProvider authProvider;
   Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
-  public AuthController(AccountsRepository accountsRepository) {
+  public AuthController(AccountsRepository accountsRepository, AuthProvider authProvider) {
     this.accountsRepository = accountsRepository;
+    this.authProvider = authProvider;
   }
 
   @RequestMapping(path = "/login")
   public String login(Principal principal) {
     LOGGER.info("{} just logged in.", principal.getName());
     return "Hello baby";
+  }
+
+  @PostMapping(path = "/loginWithFacebook")
+  public ResponseEntity<User> loginWithFacebook(Principal principal) {
+    return ResponseEntity.ok(User.builder().username(principal.getName()).build());
   }
 
   @PostMapping(path = "/registration", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -48,21 +65,13 @@ public class AuthController {
   public void facebook(@RequestBody AuthToken accessToken) {
     LOGGER.info(accessToken.getToken());
     Facebook facebook = new FacebookTemplate(accessToken.getToken());
-    String[] fields = { "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education",
-        "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people",
-        "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location",
-        "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints",
-        "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone",
-        "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website",
-        "work" };
     org.springframework.social.facebook.api.User user = facebook.fetchObject("me",
-        org.springframework.social.facebook.api.User.class, fields);
-    LOGGER.info(user.getName());
-    LOGGER.info(user.getAbout());
-    LOGGER.info(user.getEmail());
-    LOGGER.info(user.getFirstName());
-    LOGGER.info(user.getGender());
-    LOGGER.info(user.getId());
+        org.springframework.social.facebook.api.User.class, FACEBOOK_FIELDS);
+    if (accountsRepository.findByUsername(user.getEmail()) == null) {
+      accountsRepository
+          .save(Account.builder().username(user.getEmail()).password(UUID.randomUUID().toString()).build());
+      LOGGER.info("{} registered with facebook", user.getEmail());
+    }
   }
 
   @GetMapping(path = "/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

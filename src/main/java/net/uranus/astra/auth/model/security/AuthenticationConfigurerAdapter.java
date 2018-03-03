@@ -17,15 +17,18 @@ public class AuthenticationConfigurerAdapter extends GlobalAuthenticationConfigu
 
   private final AccountsRepository accountsRepository;
   private final static Logger log = LoggerFactory.getLogger(AuthenticationConfigurerAdapter.class);
+  private final AuthProvider authProvider;
 
-  public AuthenticationConfigurerAdapter(AccountsRepository accountsRepository) {
+  public AuthenticationConfigurerAdapter(AccountsRepository accountsRepository, AuthProvider authProvider) {
     this.accountsRepository = accountsRepository;
+    this.authProvider = authProvider;
   }
 
   @Override
   public void init(AuthenticationManagerBuilder managerBuilder) {
     try {
       managerBuilder.userDetailsService(userDetailsService());
+      managerBuilder.authenticationProvider(authProvider);
     }
     catch (Exception e) {
       throw new RuntimeException(e);
